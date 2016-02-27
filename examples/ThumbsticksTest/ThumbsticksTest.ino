@@ -1,5 +1,5 @@
 /*
- * Example of working 2 Gamepads with Calibration
+ * Example of working 2 Thumbsticks (PS2 Thumbstick for Arduino) with Calibration
  * Connect first thumbstick X to A1, Y to A0
  *         second thumbstick X to A3,Y to A2
  */
@@ -20,13 +20,13 @@ double multiplierLY = 0.254;
 Gamepad gp;
 void setup() {
   //initializing inputs
-  Serial.begin(9600);
   pinMode(A0, INPUT);
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
   pinMode(A3, INPUT);
+  pinMode(3,  INPUT_PULLUP);
+  pinMode(4,  INPUT_PULLUP);
   calibrate();
-  //pinMode(3,  INPUT_PULLUP);
 }
 
 void loop() {
@@ -36,10 +36,10 @@ void loop() {
   rx = analogRead(A1);
   ry = analogRead(A0);
   //we need to convert a 0-1000 to -127 - 127
-  lx = (lx - leftXcenter) * multiplierLX;
-  ly = (ly - leftYcenter) * multiplierLY;
-  rx = (rx - rightXcenter) * multiplierRX;
-  ry = (ry - rightYcenter) * multiplierRY;
+  lx = floor((lx - leftXcenter) * multiplierLX);
+  ly = floor((ly - leftYcenter) * multiplierLY);
+  rx = floor((rx - rightXcenter) * multiplierRX);
+  ry = floor((ry - rightYcenter) * multiplierRY);
   if(lx > 127) lx = 127;
   if(ly > 127) ly = 127;
   if(rx > 127) rx = 127;
@@ -49,6 +49,21 @@ void loop() {
   //because i have placed a thumbstick in breadboard, i must invert a Y axis and swap X and Y axises
   gp.setLeftYaxis(ly);
   gp.setRightYaxis(ry);
+  
+  int rightStickButton, leftStickButton;
+  rightStickButton = digitalRead(3);
+  leftStickButton = digitalRead(4);
+  
+  if(rightStickButton == LOW)
+	  gp.setButtonState(11, true);
+  else
+	  gp.setButtonState(11, false);
+
+  if(leftStickButton == LOW)
+	  gp.setButtonState(10, true);
+  else
+	  gp.setButtonState(10, false);
+
   delay(20);
 }
 
