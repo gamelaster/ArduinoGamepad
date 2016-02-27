@@ -3,6 +3,8 @@ A GamePad HID library for Arduino Pro Micro/Leonardo (ATMega32u4)
 This library works only on Arduino IDE 1.6.6 or higher!
 ## How to install
 Create a new directory named "Gamepad" in Documents > Arduino > libraries, and copy all files from repository into that directory
+## How to make a Gamepad
+[http://www.instructables.com/id/Arduino-LeonardoMicroATMega32u4-As-GamepadGame-Con/](http://www.instructables.com/id/Arduino-LeonardoMicroATMega32u4-As-GamepadGame-Con/)
 ## Small example
 ```c++
 //Including a library
